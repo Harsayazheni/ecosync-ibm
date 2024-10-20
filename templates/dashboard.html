@@ -1,0 +1,243 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSync</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="icon" href="logo.png" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../static/images/logo.png" alt="EcoSync Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Predictions</a></li>
+                <li><a href="#">Optimization</a></li>
+                <li><a href="#">Insights</a></li>
+                <li><a href="#"><span>About Us</span></a></li>
+            </ul>
+        </nav>
+    </header>
+        
+    <main>
+        <!-- Climate Change Predictions Section -->
+        <section id="predictions-section">
+            <div class="prediction-card">
+                <h2>Climate Change Prediction</h2>
+                <form id="prediction-form">
+                    <!-- Temperature Scale Input -->
+                    <label for="temperature">Temperature (°C):</label>
+                    <input type="range" id="temperature" name="temperature" min="-50" max="50" step="1" value="0" oninput="document.getElementById('temp-value').innerText = this.value">
+                    <span id="temp-value">0</span>°C
+
+                    <!-- Country Dropdown -->
+                    <label for="country">Country:</label>
+                    <select id="country" name="country">
+                        <option value="india">India</option>
+                        <option value="usa">USA</option>
+                        <option value="canada">Canada</option>
+                        <option value="uk">UK</option>
+                        <!-- Add more country options as needed -->
+                    </select>
+
+                    <!-- Location Dropdown -->
+                    <label for="location">Location:</label>
+                    <select id="location" name="location">
+                        <option value="urban">Urban</option>
+                        <option value="rural">Rural</option>
+                        <option value="coastal">Coastal</option>
+                        <option value="mountain">Mountain</option>
+                    </select>
+
+                    <!-- Predict Button -->
+                    <button type="button" onclick="predictClimateChange()">Predict</button>
+                </form>
+
+                <!-- Prediction Result Placeholder -->
+                <div id="prediction-result" style="margin-top: 20px;">
+                    <!-- Prediction result will appear here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Optimization Section -->
+        <section id="optimization-section">
+            <h1>Energy Optimization</h1>
+            <div class="input-container">
+                <label for="temperature">Temperature:</label>
+                <input type="range" id="temperature" min="{{ temp_min }}" max="{{ temp_max }}" value="0" step="0.1">
+                <span id="temperatureValue">0</span>
+            </div>
+            <div class="input-container">
+                <label for="humidity">Humidity:</label>
+                <input type="range" id="humidity" min="{{ humidity_min }}" max="{{ humidity_max }}" value="0" step="0.1">
+                <span id="humidityValue">0</span>
+            </div>
+            <div class="input-container">
+                <label for="hour">Hour (0-23):</label>
+                <input type="number" id="hour" min="0" max="23" value="12">
+            </div>
+            <div class="input-container">
+                <label for="day">Day (1-31):</label>
+                <input type="number" id="day" min="1" max="31" value="15">
+            </div>
+            <div class="input-container">
+                <label for="month">Month (1-12):</label>
+                <input type="number" id="month" min="1" max="12" value="6">
+            </div>
+            <button id="optimizeBtn">Optimize</button>
+            <div id="result"></div>
+            <div class="chart-container">
+                <canvas id="energyChart"></canvas>
+            </div>
+                
+        </section>
+        <!-- Insights Section -->
+        <section id="insights-section">
+            <h2>Electricity Consumption Insights</h2>
+                <div id="plot1"></div>
+                <div id="plot2"></div>
+                <div id="plot3"></div>
+                <div id="plot4"></div>
+        </section>
+        <!-- Team Section -->
+        <section class="team-section">
+            <h2>Meet Our Team: NextGen</h2>
+            <div class="team-cards">
+                <div class="team-card">
+                    <img src="../static/images/sabitha.jpg" alt="Sabitha Paulraj">
+                    <h3>Sabitha Paulraj</h3>
+                    <p>Department: CSE</p>
+                </div>
+                <div class="team-card">
+                    <img src="../static/images/blessy.jpg" alt="Ann Blessy Philips">
+                    <h3>Ann Blessy Philips</h3>
+                    <p>Department: CSE</p>
+                </div>
+                <div class="team-card">
+                    <img src="../static/images/shalini.jpg" alt="Shalini K">
+                    <h3>Shalini K</h3>
+                    <p>Department: AIML</p>
+                </div>
+                <div class="team-card">
+                    <img src="../static/images/harsayazheni.JPG" alt="Harsayazheni P Y">
+                    <h3>Harsayazheni P Y</h3>
+                    <p>Department: CSE</p>
+                </div>
+                <div class="team-card">
+                    <img src="../static/images/sowmithra.jpg" alt="Sowmithra R">
+                    <h3>Sowmithra R</h3>
+                    <p>Department: ECE</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Powered by IBM and LinuxOne Community</p>
+    </footer>
+
+    <script src="../static/js/script.js"></script>
+    <script>
+        const temperatureSlider = document.getElementById('temperature');
+        const temperatureValue = document.getElementById('temperatureValue');
+        const humiditySlider = document.getElementById('humidity');
+        const humidityValue = document.getElementById('humidityValue');
+        const optimizeBtn = document.getElementById('optimizeBtn');
+        const resultDiv = document.getElementById('result');
+        const ctx = document.getElementById('energyChart').getContext('2d');
+
+        let chart;
+
+        temperatureSlider.addEventListener('input', function() {
+            temperatureValue.textContent = parseFloat(this.value).toFixed(2);
+        });
+
+        humiditySlider.addEventListener('input', function() {
+            humidityValue.textContent = parseFloat(this.value).toFixed(2);
+        });
+
+        optimizeBtn.addEventListener('click', fetchPrediction);
+
+        async function fetchPrediction() {
+            const temperature = parseFloat(temperatureSlider.value);
+            const humidity = parseFloat(humiditySlider.value);
+            const hour = parseInt(document.getElementById('hour').value);
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value);
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        temperature: temperature,
+                        humidity: humidity,
+                        hour: hour,
+                        day: day,
+                        month: month
+                    }),
+                });
+                const data = await response.json();
+                resultDiv.innerHTML = `Predicted Consumption: ${data.predicted_consumption.toFixed(2)}<br>Category: ${data.category}`;
+                updateChart(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function updateChart(data) {
+            const chartData = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Energy Consumption',
+                    data: data.monthly_data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            };
+
+            if (chart) {
+                chart.data = chartData;
+                chart.update();
+            } else {
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initial chart setup
+        updateChart({ monthly_data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] });
+
+        // Set initial values
+        temperatureValue.textContent = temperatureSlider.value;
+        humidityValue.textContent = humiditySlider.value;
+        var plot1 = JSON.parse('{{ plot1JSON | safe }}');
+        var plot2 = JSON.parse('{{ plot2JSON | safe }}');
+        var plot3 = JSON.parse('{{ plot3JSON | safe }}');
+        var plot4 = JSON.parse('{{ plot4JSON | safe }}');
+
+        Plotly.newPlot('plot1', plot1.data, plot1.layout);
+        Plotly.newPlot('plot2', plot2.data, plot2.layout);
+        Plotly.newPlot('plot3', plot3.data, plot3.layout);
+        Plotly.newPlot('plot4', plot4.data, plot4.layout);
+
+    </script>
+</body>
+</html>
