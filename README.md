@@ -43,7 +43,7 @@ Ecosync aims to...
 - Promotes sustainability
 - Lowers carbon footprint in urban areas
 - Highlights: Energy consumption and optimization - SDG 07 & Industrial revolution 5.0
-
+  
 
 ### ARCHITECTURE DIAGRAM:
 
