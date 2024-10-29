@@ -49,6 +49,6 @@ Ecosync aims to...
 
 ![WhatsApp Image 2024-10-21 at 21 19 22_51f2dca1](https://github.com/user-attachments/assets/11760696-c908-44dc-8799-ee56c6d5ae07)
 
-#### Check Out the website: https://ecosync-ten.vercel.app/
+#### Check Out the website: https://ecosync-ibm-main.onrender.com/
 
 
